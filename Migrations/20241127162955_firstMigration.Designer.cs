@@ -12,8 +12,8 @@ using formpage.Models;
 namespace formpage.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241123213024_first_migration")]
-    partial class first_migration
+    [Migration("20241127162955_firstMigration")]
+    partial class firstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
