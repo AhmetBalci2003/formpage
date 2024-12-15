@@ -12,8 +12,8 @@ using formpage.Models;
 namespace formpage.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241215133824_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241215163724_AddFiyatColumn")]
+    partial class AddFiyatColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,124 +69,124 @@ namespace formpage.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OtelID"));
 
-                    b.Property<DateTime>("No_10_cıkıs")
+                    b.Property<DateTime?>("No_10_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_10_giris")
+                    b.Property<DateTime?>("No_10_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_11_cıkıs")
+                    b.Property<DateTime?>("No_11_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_11_giris")
+                    b.Property<DateTime?>("No_11_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_12_cıkıs")
+                    b.Property<DateTime?>("No_12_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_12_giris")
+                    b.Property<DateTime?>("No_12_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_13_cıkıs")
+                    b.Property<DateTime?>("No_13_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_13_giris")
+                    b.Property<DateTime?>("No_13_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_14_cıkıs")
+                    b.Property<DateTime?>("No_14_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_14_giris")
+                    b.Property<DateTime?>("No_14_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_15_cıkıs")
+                    b.Property<DateTime?>("No_15_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_15_giris")
+                    b.Property<DateTime?>("No_15_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_16_cıkıs")
+                    b.Property<DateTime?>("No_16_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_16_giris")
+                    b.Property<DateTime?>("No_16_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_17_cıkıs")
+                    b.Property<DateTime?>("No_17_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_17_giris")
+                    b.Property<DateTime?>("No_17_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_18_cıkıs")
+                    b.Property<DateTime?>("No_18_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_18_giris")
+                    b.Property<DateTime?>("No_18_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_19_cıkıs")
+                    b.Property<DateTime?>("No_19_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_19_giris")
+                    b.Property<DateTime?>("No_19_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_1_cıkıs")
+                    b.Property<DateTime?>("No_1_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_1_giris")
+                    b.Property<DateTime?>("No_1_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_20_cıkıs")
+                    b.Property<DateTime?>("No_20_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_20_giris")
+                    b.Property<DateTime?>("No_20_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_2_cıkıs")
+                    b.Property<DateTime?>("No_2_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_2_giris")
+                    b.Property<DateTime?>("No_2_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_3_cıkıs")
+                    b.Property<DateTime?>("No_3_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_3_giris")
+                    b.Property<DateTime?>("No_3_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_4_cıkıs")
+                    b.Property<DateTime?>("No_4_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_4_giris")
+                    b.Property<DateTime?>("No_4_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_5_cıkıs")
+                    b.Property<DateTime?>("No_5_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_5_giris")
+                    b.Property<DateTime?>("No_5_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_6_cıkıs")
+                    b.Property<DateTime?>("No_6_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_6_giris")
+                    b.Property<DateTime?>("No_6_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_7_cıkıs")
+                    b.Property<DateTime?>("No_7_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_7_giris")
+                    b.Property<DateTime?>("No_7_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_8_cıkıs")
+                    b.Property<DateTime?>("No_8_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_8_giris")
+                    b.Property<DateTime?>("No_8_giris")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_9_cıkıs")
+                    b.Property<DateTime?>("No_9_cıkıs")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("No_9_giris")
+                    b.Property<DateTime?>("No_9_giris")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("Oda_no1")
@@ -330,6 +330,10 @@ namespace formpage.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OtelName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("fiyat")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
