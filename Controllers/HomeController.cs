@@ -7,16 +7,10 @@ namespace formpage.Controllers
 {
     public class HomeController : Controller
     {
+
+
         
-       
+            
 
-
-
-
-
-
-
-
-
-    }
+        }
 }

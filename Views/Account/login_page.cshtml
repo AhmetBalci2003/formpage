@@ -1,24 +1,45 @@
-﻿<form asp-action="login_form" asp-controller="Account" method="post">
-    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-    {
-        <div style="color: red;">@ViewBag.ErrorMessage</div>
-    }
+﻿@{
+    ViewData["Title"] = "Giriş Yap";
+}
 
-    <!-- Email Alanı -->
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email"
-    @(ViewData["action"]?.ToString() == "login" ? "required" : "") />
-    <br />
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f4f8; font-family: Arial, sans-serif;">
+    <div style="width: 350px; text-align: center; background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+        <!-- Logo -->
+        <img src="~/images/logo.jpg" alt="Logo" style="width: 120px; margin-bottom: 25px;" />
 
-    <!-- Şifre Alanı -->
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password"
-    @(ViewData["action"]?.ToString() == "login" ? "required" : "") />
-    <br />
+        <!-- Başlık -->
+        <h2 style="margin-bottom: 25px; font-size: 28px; color: #333; font-weight: 600;">Giriş Yap</h2>
 
-    <!-- Giriş Yap Butonu -->
-    <button type="submit" name="action" value="login">Giriş Yap</button>
+        <!-- Form -->
+        <form asp-action="login_form" asp-controller="Account" method="post">
+            <!-- Hata Mesajı -->
+            @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+            {
+                <div style="color: #e74c3c; margin-bottom: 20px; font-size: 14px;">@ViewBag.ErrorMessage</div>
+            }
 
-    <label for="about-link">Hesabın yok mu?</label>
-    <a id="about-link" href="@Url.Action("Register", "Account")">Kayıt ol</a>
-</form>
+            <!-- Email Alanı -->
+            <div style="margin-bottom: 20px; text-align: left;">
+                <label for="email" style="display: block; font-weight: bold; color: #555;">Email:</label>
+                <input type="email" id="email" name="email" required placeholder="Email adresinizi girin" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; color: #333; background-color: #f8f9fa;" />
+            </div>
+
+            <!-- Şifre Alanı -->
+            <div style="margin-bottom: 20px; text-align: left;">
+                <label for="password" style="display: block; font-weight: bold; color: #555;">Şifre:</label>
+                <input type="password" id="password" name="password" required placeholder="Şifrenizi girin" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; color: #333; background-color: #f8f9fa;" />
+            </div>
+
+            <!-- Giriş Yap Butonu -->
+            <button type="submit" name="action" value="login" style="width: 100%; padding: 14px; background-color: #3498db; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                Giriş Yap
+            </button>
+
+            <!-- Kayıt Ol Linki -->
+            <div style="margin-top: 20px;">
+                <label for="about-link" style="font-size: 14px; color: #777;">Hesabın yok mu?</label>
+                <a id="about-link" href="@Url.Action("Register", "Account")" style="color: #3498db; text-decoration: none; font-weight: bold;">Kayıt ol</a>
+            </div>
+        </form>
+    </div>
+</div>

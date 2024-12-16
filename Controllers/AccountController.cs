@@ -1,16 +1,16 @@
 ﻿using formpage.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
-using static Azure.Core.HttpHeader;
 
 namespace formpage.Controllers
 {
     public class AccountController : Controller
     {
-        
-
-
         public static string _code = "";
         public static string _email = "";
         public static User user = new User
@@ -19,10 +19,10 @@ namespace formpage.Controllers
             Name = "",
             S_Name = "",
             Email = "",
-            Password ="",
-            Reg_Date =null,
+            Password = "",
+            Reg_Date = null,
             Account_Status = true,
-            Phone_Num ="",
+            Phone_Num = "",
             verify_email = false
         };
 
@@ -33,92 +33,86 @@ namespace formpage.Controllers
             _context = context;
         }
 
+        // Login sayfası
         public IActionResult Login_page()
         {
-
             return View();
         }
+
+        // Login formunu işleyen POST metodu
 
         [HttpPost]
         public async Task<IActionResult> login_form(string email, string password, string action)
         {
-
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
-                if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-                {
-                    ViewBag.ErrorMessage = "E-posta ve şifre boş olamaz!";
-                    return View("Login_page");
-                }
-
-                try
-                {
-                    _email=email;
-                    string encryptedPassword = Base64Helper.Encode(password);
-
-                    var user = await _context.Users
-                      .Where(u => u.Email == email)
-                      .FirstOrDefaultAsync();
-
-                    if (user != null)
-                    {
-                        if (user.Password == encryptedPassword)
-                        {
-
-                            return RedirectToAction("success", "Account");
-                        }
-                        else
-                        {
-                            ViewBag.ErrorMessage = "Geçersiz şifre!";
-                        }
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    ViewBag.ErrorMessage = "giriş yapılırken bir hata oluştu:" + ex.Message;
-                    return View("Login_page");
-
-
-
-                }
-
-
-            }
-
-            return View("login_page");
-
-
-        }
-
-        public IActionResult register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> register_action(string Name, string S_name, string Email, string Password, string Phone_Num)
-        {
-            // Alanların boş olmaması kontrolü
-            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(S_name) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Phone_Num))
-            {
-                ViewBag.ErrorMessage = "Tüm alanlar doldurulmalıdır!";
-                return View("register");
+                ViewBag.ErrorMessage = "E-posta ve şifre boş olamaz!";
+                return View("Login_page");
             }
 
             try
             {
-                // Aynı e-posta adresi ile kullanıcı kaydının yapılmasını engelleme
+                _email = email;  // E-posta adresini global değişkende saklıyoruz.
+                string encryptedPassword = Base64Helper.Encode(password);  // Şifreyi şifrele
+
+                user = await _context.Users
+                                     .Where(u => u.Email == email)
+                                     .FirstOrDefaultAsync();
+
+                if (user != null)
+                {
+                    if (user.Password == encryptedPassword)
+                    {
+
+
+                        return RedirectToAction("success", "Account");  // Başarılı giriş sonrası yönlendirme
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMessage = "Geçersiz şifre!";
+                    }
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Kullanıcı bulunamadı!";
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Giriş yapılırken bir hata oluştu: " + ex.Message;
+            }
+
+            return View("Login_page");  // Hata durumunda tekrar giriş sayfasına döner
+        }
+
+
+
+        // Kayıt sayfası
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        // Kayıt işlemi POST metodu
+        [HttpPost]
+        public async Task<IActionResult> Register_action(string Name, string S_name, string Email, string Password, string Phone_Num)
+        {
+            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(S_name) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Phone_Num))
+            {
+                ViewBag.ErrorMessage = "Tüm alanlar doldurulmalıdır!";
+                return View("Register");
+            }
+
+            try
+            {
                 var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == Email);
                 if (existingUser != null)
                 {
-                    // Eğer e-posta adresi zaten kayıtlıysa hata mesajı göster
                     ViewBag.ErrorMessage = "Bu e-posta adresiyle zaten bir hesap bulunmaktadır.";
-                    return View("register");
+                    return View("Register");
                 }
 
                 _email = Email;
-
-
                 user.ID = Guid.NewGuid().ToString();
                 user.Name = Name;
                 user.S_Name = S_name;
@@ -126,84 +120,123 @@ namespace formpage.Controllers
                 user.Password = Base64Helper.Encode(Password);
                 user.Reg_Date = DateTime.Now;
                 user.Phone_Num = Phone_Num;
+                _code = "";
 
 
-                // Veritabanına kaydet
 
 
-                // Kayıt işlemi başarılı, kullanıcıyı doğrulama sayfasına yönlendir
-                return RedirectToAction("verify", "Account");
+
+                return RedirectToAction("verify");
             }
             catch (Exception ex)
             {
-                // Hata durumunda tekrar kayıt sayfasını göster
-                ViewBag.ErrorMessage = "Bir hata oluştu. Lütfen tekrar deneyin.";
-                return View("register");
+                ViewBag.ErrorMessage = "Bir hata oluştu. Lütfen tekrar deneyin. Hata: " + ex.Message;
+                return View("Register");
             }
         }
 
+
+        // Başarı sayfası
         public IActionResult success()
         {
+
+            // Kullanıcı bilgilerini ViewBag'e ekleyin
+            ViewBag.UserName = user.Name;
+            ViewBag.UserSurname =user.S_Name;
+
             return View();
         }
-        public void verify_fun(string email)
-        {
 
+        // E-posta doğrulama işlemi
+        public void Verify_fun(string email)
+        {
             Verify_email vcode = new Verify_email();
             _code = vcode.Send_email(email);
-
         }
-        public IActionResult verify()
-        {
 
+        // Doğrulama sayfası
+        public IActionResult Verify()
+        {
 
             if (_code == "")
             {
-                verify_fun(_email);
+
+                Verify_fun(_email);
             }
+
+
             return View();
         }
 
-        [HttpPost]
-        public IActionResult VerifyAction(string code)
-        {
-            if (code.ToString() == _code)
-            {
-                user.verify_email=true;
+        // Doğrulama kodunu işleyen POST metodu
 
-                if (user != null)
+        [HttpPost]
+        public IActionResult VerifyAction(string code1, string code2, string code3, string code4)
+        {
+            try
+            {
+                // Gelen değerlerin null veya boş olmadığını kontrol et
+                if (string.IsNullOrEmpty(code1) || string.IsNullOrEmpty(code2) ||
+                    string.IsNullOrEmpty(code3) || string.IsNullOrEmpty(code4))
                 {
-                    _context.Add(user);
-                    _context.SaveChangesAsync();
+                    ViewBag.ErrorMessage = "Lütfen tüm kod alanlarını doldurun!";
+                    return View("verify");
+                }
+
+                // Kodları birleştir
+                string verificationCode = $"{code1}{code2}{code3}{code4}";
+
+
+                // Doğrulama işlemi (_code global değişkeninden alınıyor)
+                if (verificationCode == _code)
+                {
+                    user.verify_email = true;
+                    // Başarılı doğrulama işlemi
+                    if (user != null)
+                    {
+                        _context.Add(user);
+                        _context.SaveChangesAsync();
+                        return RedirectToAction("Login_page");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Verify");
+
+                    }
+
+
                 }
                 else
                 {
-                    return RedirectToAction("verify");
+                    ViewBag.ErrorMessage = "Geçersiz doğrulama kodu. Lütfen tekrar deneyin.";
+
+
                 }
 
-                return RedirectToAction("Login_page");
             }
-            else
+            catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "Geçersiz doğrulama kodu. Lütfen tekrar deneyin.";
-
-
-                return View("Verify");
+                ViewBag.ErrorMessage = "Bir hata oluştu: " + ex.Message;
             }
+
+            return View("Verify");
         }
 
+
+        // Doğrulama kodunu yeniden göndermek için
         public IActionResult ResendCode()
         {
-
-            _code="";
-            verify_fun(_email);
-            return RedirectToAction("verify");
-
-
+            _code = "";  // Eski kodu sıfırla
+            Verify_fun(_email);  // Yeni kodu oluştur
+            return RedirectToAction("Verify");
         }
 
+        // Çıkış işlemi
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();  // Kullanıcıyı çıkart
+            return RedirectToAction("Login", "Account");  // Login sayfasına yönlendir
+        }
+
     }
-
 }
-
-

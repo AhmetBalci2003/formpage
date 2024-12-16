@@ -41,7 +41,7 @@ namespace formpage
 
             app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Account}/{action=login_page}/{id?}");
+            pattern: "{controller=Custom}/{action=homepage}/{id?}");
 
 
 
